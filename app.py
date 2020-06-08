@@ -102,6 +102,5 @@ def update_heatmap(TF, start_pos):
     }
     
 
-
 if __name__ == "__main__":
     app.run_server(debug=True)
