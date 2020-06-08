@@ -17,7 +17,7 @@ with open('data/Kenneth.pkl', 'rb') as f:
 
 # Initialize app with pre-defined style
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__) #, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 # define the layout          
