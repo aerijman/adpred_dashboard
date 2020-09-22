@@ -1,11 +1,16 @@
-def open(predictions_file, sm_file):
+import numpy as np
+
+aa = ['R','H','K','D','E','S','T','N','Q','A','V','L','I','M','F' ,'Y', 'W', 'C','G','P']
+
+def open_lakshims_files(predictions_file, sm_file):
     '''
     This is for opening files for a single protein.
     '''
     
+    prot = {'sequence':'', 'predictions':[]}
+
     # read file with predictions
-    prot = {'sequence':'', 'predictions':[], 'heatmap':{}}
-    with open('predictions_file','r') as f:
+    with open(predictions_file,'r') as f:
         while True:
             try: 
                 line = next(f)
@@ -18,26 +23,30 @@ def open(predictions_file, sm_file):
             except StopIteration:
                 break    
 
+
     # read sm file
+    prot['heatmaps'] = {n:[] for n in range(len(prot['sequence'])+1)}
     flag=0
-    with open('sm_file','r') as f:
+    with open(sm_file,'r') as f:
         while True:
             try: 
                 line = next(f)
                 if line[0] == ">":
         
                     if flag:
-                        prot['heatmap'][position] = arr
-                              
+                        prot['heatmaps'][position] = arr[::-1]
+
                     position = int(line[1:-1])
                     arr = np.zeros(shape=(20,30))
     
                 else:
                     line = line.strip().split(",")
-                    arr[aa.index(line[0])] = np.array(line[1:])
+                    if line[0] in aa:
+                        arr[aa.index(line[0])] = np.array(line[1:])
                     flag=1
     
             except StopIteration:
-                prot['heatmap'][position] = arr
+                prot['heatmaps'][position] = arr
                 break
 
+    return prot
