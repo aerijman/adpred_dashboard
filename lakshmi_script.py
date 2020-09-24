@@ -2,7 +2,7 @@ import numpy as np
 
 aa = ['R','H','K','D','E','S','T','N','Q','A','V','L','I','M','F' ,'Y', 'W', 'C','G','P']
 
-def open_lakshims_files(predictions_file, sm_file):
+def open_lakshims_files(predictions_file, sm_file=None):
     '''
     This is for opening files for a single protein.
     '''
@@ -22,10 +22,14 @@ def open_lakshims_files(predictions_file, sm_file):
                       
             except StopIteration:
                 break    
+    
+    # info for heatmaps is in sm file, if exists. Here we initialize the dict.
+    prot['heatmaps'] = {n:[] for n in range(len(prot['sequence'])+1)}
 
+    if sm_file is None:
+        return prot
 
     # read sm file
-    prot['heatmaps'] = {n:[] for n in range(len(prot['sequence'])+1)}
     flag=0
     with open(sm_file,'r') as f:
         while True:
