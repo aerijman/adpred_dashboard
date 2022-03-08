@@ -12,7 +12,8 @@ from dash.dependencies import Input, Output
 
 
 # load data
-with open('data/Kenneth.pkl', 'rb') as f:
+#with open('data/Kenneth.pkl', 'rb') as f:
+with open('data/proteins.pkl', 'rb') as f:
     proteins = pickle.load(f)
 
 # Initialize app with pre-defined style
@@ -24,7 +25,7 @@ server = app.server
 app.layout = html.Div(
                 children = [
                     # title
-                    html.H3(children="Adpred results for Jonathan & Kenneth", style={'textAlign': 'center'}),
+                    html.H3(children="Adpred results", style={'textAlign': 'center'}),
 
                     html.Div([
                         html.Label('Choose a TF'),
@@ -50,8 +51,8 @@ app.layout = html.Div(
 def update_profile(TF):
     return  {
             'data': [{
-                'x': np.arange(len(proteins[TF]['prediction'])),
-                'y': np.convolve(proteins[TF]['prediction'], np.ones(15)/15, 'same'), 
+                'x': np.arange(len(proteins[TF]['predictions'])),
+                'y': np.convolve(proteins[TF]['predictions'], np.ones(15)/15, 'same'), 
                 'mode':'lines+markers',
                 'opacity':0.7,
                 'marker':{
